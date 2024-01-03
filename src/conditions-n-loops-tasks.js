@@ -540,7 +540,7 @@ function sortByAsc(arr) {
  */
 function shuffleChar(str, iterations) {
   let result = str;
-  const valuesArr = new Set();
+  const valuesArr = [];
 
   function moveOddCharsToEnd(string) {
     let evenIndexChars = '';
@@ -557,14 +557,27 @@ function shuffleChar(str, iterations) {
     return evenIndexChars + oddIndexChars;
   }
 
+  function containsElement(arr, target) {
+    for (let i = 0; i < arr.length; i += 1) {
+      if (arr[i] === target) {
+        return true;
+      }
+    }
+
+    return false;
+  }
+
   for (let i = 0; i < iterations; i += 1) {
     result = moveOddCharsToEnd(result);
 
-    if (valuesArr.has(result)) {
+    if (containsElement(valuesArr, result)) {
+      const resultIdx = (iterations % valuesArr.length) - 1;
+      result = valuesArr[resultIdx];
+
       break;
     }
 
-    valuesArr.add(result);
+    valuesArr[valuesArr.length] = result;
   }
 
   return result;
